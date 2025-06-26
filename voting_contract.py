@@ -9,6 +9,8 @@ def voting_contract():
     # Global state keys
     proposal_count = Bytes("proposal_count")
     voting_end = Bytes("voting_end")
+    proposal_title = Bytes("proposal_title")
+    min_votes_required = Bytes("min_votes")
     
     # Operations
     op_create_proposal = Bytes("create_proposal")
@@ -26,6 +28,7 @@ def voting_contract():
     cast_vote = Seq([
         Assert(Global.latest_timestamp() < App.globalGet(voting_end)),
         Assert(Txn.application_args.length() == Int(2)),
+        Assert(App.localGet(Txn.sender(), Bytes("voted")) == Int(0)),  # Prevent double voting
         App.localPut(Txn.sender(), Bytes("voted"), Int(1)),
         App.globalPut(
             Concat(Bytes("votes_"), Txn.application_args[1]),

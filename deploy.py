@@ -9,7 +9,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def deploy_contract():
-    """Deploy the voting smart contract to Algorand"""
+    """Deploy the voting smart contract to Algorand testnet
+    Returns the application ID for interaction
+    """
     
     # Algorand client setup
     algod_address = "https://testnet-api.algonode.cloud"

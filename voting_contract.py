@@ -2,8 +2,9 @@ from pyteal import *
 
 def voting_contract():
     """
-    Algorand Voting Smart Contract
+    Algorand Voting Smart Contract - Secure blockchain voting system
     Allows users to create proposals and vote on them
+    Features: Time-bound voting, anti-double voting, secure proposal creation
     """
     
     # Global state keys

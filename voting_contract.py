@@ -21,6 +21,7 @@ def voting_contract():
     create_proposal = Seq([
         App.globalPut(proposal_count, App.globalGet(proposal_count) + Int(1)),
         App.globalPut(voting_end, Global.latest_timestamp() + Int(86400)),  # 24 hours
+        App.globalPut(min_votes_required, Int(10)),  # Minimum 10 votes needed
         Approve()
     ])
     

@@ -45,7 +45,11 @@ def voting_contract():
     ])
     
     # Get results logic
-    get_results = Approve()
+    get_results = Seq([
+        Assert(Global.latest_timestamp() > App.globalGet(voting_end)),  # Voting must be ended
+        App.globalPut(Bytes("voting_closed"), Int(1)),  # Mark voting as closed
+        Approve()
+    ])
     
     # Main program logic
     program = Cond(

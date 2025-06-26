@@ -7,7 +7,9 @@ def voting_contract():
     Features: Time-bound voting, anti-double voting, secure proposal creation
     """
     
-    # Global state keys
+    # Global state keys - Store voting data on blockchain
+    # proposal_count: tracks number of proposals created
+    # voting_end: timestamp when voting period ends
     proposal_count = Bytes("proposal_count")
     voting_end = Bytes("voting_end")
     

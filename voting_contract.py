@@ -42,6 +42,13 @@ def voting_contract():
         Approve()
     ])
     
+    # Close voting logic
+    close_voting = Seq([
+        Assert(Txn.sender() == App.globalGet(admin_address)),  # Only admin can close
+        App.globalPut(voting_active, Int(0)),  # Deactivate voting
+        Approve()
+    ])
+    
     # Get results logic
     get_results = Approve()
     
@@ -51,7 +58,8 @@ def voting_contract():
         [Txn.on_completion() == OnCall.OptIn, Approve()],  # Opt-in
         [Txn.application_args[0] == op_create_proposal, create_proposal],
         [Txn.application_args[0] == op_vote, cast_vote],
-        [Txn.application_args[0] == op_get_results, get_results]
+        [Txn.application_args[0] == op_get_results, get_results],
+        [Txn.application_args[0] == op_close_voting, close_voting]
     )
     
     return program

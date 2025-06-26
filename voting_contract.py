@@ -25,12 +25,15 @@ def voting_contract():
         App.globalPut(proposal_count, App.globalGet(proposal_count) + Int(1)),
         App.globalPut(voting_end, Global.latest_timestamp() + Int(86400)),  # 24 hours
         App.globalPut(min_votes_required, Int(10)),  # Minimum 10 votes needed
+        App.globalPut(admin_address, Txn.sender()),  # Set creator as admin
+        App.globalPut(voting_active, Int(1)),  # Activate voting
         Approve()
     ])
     
     # Vote logic
     cast_vote = Seq([
         Assert(Global.latest_timestamp() < App.globalGet(voting_end)),
+        Assert(App.globalGet(voting_active) == Int(1)),  # Ensure voting is still active
         Assert(Txn.application_args.length() == Int(2)),
         Assert(App.localGet(Txn.sender(), Bytes("voted")) == Int(0)),  # Prevent double voting
         App.localPut(Txn.sender(), Bytes("voted"), Int(1)),

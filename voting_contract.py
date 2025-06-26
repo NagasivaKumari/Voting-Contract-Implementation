@@ -11,6 +11,8 @@ def voting_contract():
     voting_end = Bytes("voting_end")
     proposal_title = Bytes("proposal_title")
     min_votes_required = Bytes("min_votes")
+    admin_address = Bytes("admin")
+    voting_active = Bytes("active")
     
     # Operations
     op_create_proposal = Bytes("create_proposal")

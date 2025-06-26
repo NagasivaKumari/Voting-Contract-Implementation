@@ -16,6 +16,7 @@ def voting_contract():
     op_create_proposal = Bytes("create_proposal")
     op_vote = Bytes("vote")
     op_get_results = Bytes("get_results")
+    op_close_voting = Bytes("close_voting")
     
     # Create proposal logic
     create_proposal = Seq([
@@ -35,6 +36,7 @@ def voting_contract():
             Concat(Bytes("votes_"), Txn.application_args[1]),
             App.globalGet(Concat(Bytes("votes_"), Txn.application_args[1])) + Int(1)
         ),
+        App.globalPut(Bytes("total_votes"), App.globalGet(Bytes("total_votes")) + Int(1)),
         Approve()
     ])
     
